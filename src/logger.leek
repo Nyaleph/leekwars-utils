@@ -1,0 +1,94 @@
+include("string.leek")
+include("color.leek")
+
+class LogLevel
+{
+	// Tis an enum... Could have used a table but I like it like this
+	static NONE = 0;
+	static INFO = 1;
+	static DEBUG = 2;
+	static VERBOSE = 3;
+}
+
+class Logger
+{	
+	level
+	op_saved
+	
+	log_message
+	log_ops_message
+	
+	constructor(level)
+	{
+		this.level = level;
+		this.op_saved = [];
+		this.save_ops("total");
+		this.save_ops("all_turn_ops")
+		
+		this.log_message = "${category}: ${message}";
+		this.log_ops_message = "${category}: ${operations} / ${max_ope} (U${used}%, L${left}%)"
+	}
+	
+	reset_op()
+	{
+		var absolute_total = this.op_saved["all_turn_ops"];
+		this.op_saved = ["all_turn_ops" : absolute_total];
+		this.save_ops("total")
+	}
+	
+	set_level(level)
+	{
+		this.level = level;
+		this.log_msg(LogLevel.VERBOSE, "logging", String.format("log level changed to ${0}", [this.level]), color.get("gray"));
+	}
+	
+	/**
+	 * Logs a single message if the message's priority is lower than the current one'
+	 **/
+	log_msg(level, category, message, color)
+	{
+		if (this.level >= level)
+		{
+			if (color == null)
+				color = color.get("blue");
+			debugC(String.format(log_message, [
+				"category": category, 
+				"message": message
+			]), color);
+		}
+	}
+	
+	save_ops(category)
+	{
+		this.op_saved[category] = getOperations();
+	}
+	
+	/**
+	 * Logs the current operation used
+	 **/
+	log_ops(level, category, color, overwrite)
+	{
+		var ops = getOperations();
+		if (this.level >= level)
+		{
+			if (color == null)
+				color = color.get("blue");
+
+			var ops_since_last = ops - this.op_saved[category];
+			var used = round(ops_since_last / OPERATIONS_LIMIT * 1000) / 10;
+			debugC(String.format(
+				this.log_ops_message, [
+				"category": category,
+				"operations": ops_since_last,
+				"max_ope": OPERATIONS_LIMIT,
+				"used": used,
+				"left": 100 - used
+			]), color);
+		}
+		if (overwrite) // Saves the current cost over the previous
+			this.save_ops(category)
+	}
+}
+
+global logger = new Logger(LogLevel.VERBOSE);
+logger.reset_op()

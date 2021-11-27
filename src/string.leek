@@ -1,0 +1,14 @@
+/**
+ * Class containing the methods I use for strings
+ **/
+class String
+{
+	static format(str, values)
+	{
+		for (var key : var value in values)
+		{
+			str = replace(str, "${" + key + "}", string(value));
+		}
+		return str;
+	}
+}

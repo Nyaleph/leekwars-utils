@@ -1,0 +1,27 @@
+class Color
+{
+	values
+	constructor()
+	{
+		this.values = [];
+		
+		this.set("red", 255, 100, 100);
+		this.set("green", 100, 255, 100);
+		this.set("blue", 100, 100, 255);
+		
+		this.set("gray", 100, 100, 100);
+		this.set("black", 255, 255, 255);
+	}
+	
+	set(value, red, green, blue)
+	{
+		this.values[value] = getColor(red, green, blue);
+	}
+	
+	get(value)
+	{
+		return this.values[value]
+	}
+}
+
+global color = new Color();
