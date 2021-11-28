@@ -1,0 +1,51 @@
+class Array
+{
+	static fill(arr, callback, count)
+	{
+		var ret = [];
+		for (var i = 0; i < count; i++)
+		{
+			ret[i] = callback(i, arr);
+		}
+		return ret;
+	}
+	
+	static map(arr, callback)
+	{
+		var ret = [];
+		for (var key: var val in arr)
+		{
+			ret[key] = callback(val, key, arr);
+		}
+		return ret;
+	}
+	
+	static forEach(arr, callback)
+	{
+		for (var key: var val in arr)
+		{
+			callback(val, key, arr);
+		}
+	}
+	
+	static fold(arr, callback, first)
+	{
+		var ret = first;
+		for (var key: var val in arr)
+		{
+			ret = callback(first, val, key, arr);
+		}
+		return ret;
+	}
+	
+	static filter(arr, predicate)
+	{
+		var ret = [];
+		for (var key: var val in arr)
+		{
+			if (predicate(val, key, arr))
+				ret[key] = val;
+		}
+		return ret;
+	}
+}

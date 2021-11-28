@@ -1,4 +1,4 @@
-class Color
+cclass Color
 {
 	values
 	constructor()
@@ -6,11 +6,14 @@ class Color
 		this.values = [];
 		
 		this.set("red", 255, 100, 100);
-		this.set("green", 100, 255, 100);
+		this.set("green", 50, 255, 50);
 		this.set("blue", 100, 100, 255);
 		
+		this.set("yellow", 255, 200, 20);
+		this.set("orange", 255, 150, 100);
+		
 		this.set("gray", 100, 100, 100);
-		this.set("black", 255, 255, 255);
+		this.set("black", 0, 0, 0);
 	}
 	
 	set(value, red, green, blue)
@@ -22,6 +25,12 @@ class Color
 	{
 		return this.values[value]
 	}
+	
+	test_colors()
+	{
+		for (var name : var col in this.values)
+		{
+			debugC(name, col);
+		}
+	}
 }
-
-global color = new Color();
