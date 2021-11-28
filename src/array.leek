@@ -33,7 +33,7 @@ class Array
 		var ret = first;
 		for (var key: var val in arr)
 		{
-			ret = callback(first, val, key, arr);
+			ret = callback(ret, val, key, arr);
 		}
 		return ret;
 	}
